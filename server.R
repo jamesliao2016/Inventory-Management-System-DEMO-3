@@ -1,11 +1,12 @@
+#install.packages("TTR")    
+#install.packages("forecast")
 library(shiny)
 
 
 shinyServer(function(input, output) {
   # while running coded for first time, if function doesn't work, please remove '#' from below two lines, then run it again. R will install those packages.
   
-  install.packages("TTR")    
-  install.packages("forecast")
+
   
   library(forecast)
   
@@ -153,6 +154,8 @@ shinyServer(function(input, output) {
   output$product_plot <- renderPlot({
     p_data = select.product()
     barplot(p_data$UNIT_SALES , col = "blue", ylab = " Unit Sales")
+    abline(h=select.product.name()$reorder_point*10, col = "Red", lty = 5, lwd = 3)
+    legend(nrow(p_data)-2,select.product.name()$reorder_point*14, "Reorder Point", col = 2, cex=1.5,box.col = "white", bg = "lightblue",adj = 0.2)
   })
   
   output$product_dataHead <- renderDataTable(select.product())
